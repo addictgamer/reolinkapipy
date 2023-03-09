@@ -81,6 +81,35 @@ class NetworkAPIMixin:
         """
         body = [{"cmd": "GetNtp", "action": 0, "param": {}}]
         return self._execute_command('GetNtp', body)
+    
+    def set_network_ntp(self, enable : bool, interval : int, port : int, server : str):
+        if enable is True:
+            enable = 1
+        elif enable is False:
+            enable = 0
+        else
+            raise ValueError("enable must be either True or False")
+        
+        if type(interval) is not int:
+            raise ValueError("interval must be an integer")
+        
+        if type(port) is not int:
+            raise ValueError("port must be an integer")
+        
+        if type(server) is not str:
+            raise ValueError("server must be a string")
+        
+        ntp_settings = {
+            "Ntp": {
+                "enable" : enable,
+                "interval" : interval,
+                "port" : port,
+                "server" : server
+            }
+        }
+        body = [{"cmd": "SetNtp", "action": 0, "param": ntp_settings}]
+        
+        return self._execute_command('SetNtp', body, multi=True)
 
     def get_network_email(self) -> Dict:
         """
